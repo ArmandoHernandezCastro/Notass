@@ -34,6 +34,19 @@ function App() {
     handleClickLimpiar();
   };
 
+  const handleBorrarNota = (index) => {
+    const nuevoArreglo = []
+    console.log(index);
+    arregloNotas.forEach((nota, i) => {
+      if(index !== i){
+        nuevoArreglo.push(nota);
+      }
+    });
+
+    localStorage.setItem("notas", JSON.stringify(nuevoArreglo));
+    arregloNotas = [...nuevoArreglo]
+  };
+
   const handleInputClean = () => { 
     setInputState({
         titulo: "",
@@ -52,15 +65,19 @@ function App() {
               "al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo." :
               (
                 <ol>
-                  {arregloNotas.map((item) => {
+                  {arregloNotas.map((item, index) => {
                     return(
-                      <li>{item.titulo}({item.fecha})
+                      <li>{item.titulo}({item.fecha} )&nbsp;
+                      <i class="bi bi-x-circle-fill"
+                      onClick={() => handleBorrarNota(index)}
+                      style={{color: "red", fontSize:"0.75rem",
+                      cursor:"pointer"}}></i>
                       </li>
                     );
     
                   })}
                   </ol>
-                )}
+                )}  
            
             
         </div>

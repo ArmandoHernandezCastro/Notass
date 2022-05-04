@@ -10,6 +10,10 @@ function App() {
     nota: "",
   }); //VALOR INICIAL DEL STATE
 
+  const initialState= JSON.parse(localStorage.getItem("notas")) || [];
+
+  const [notas, setNotas] = useState(initialState);
+
   const handleInputChange = (event) => { 
     //console.log(event.target);
       setInputState({
@@ -25,26 +29,26 @@ function App() {
     setInputState ({titulo: " ", fecha: " ", nota: " "});
   };
 
-  let arregloNotas = JSON.parse(localStorage.getItem("notas")) || [];
+
 
   const handleClickGuardar = () => {
-    
-    arregloNotas.push(inputState)
-    localStorage.setItem("notas", JSON.stringify(arregloNotas));
+    setNotas ([...notas, inputState])
+    localStorage.setItem("notas", JSON.stringify(notas));
     handleClickLimpiar();
   };
 
   const handleBorrarNota = (index) => {
     const nuevoArreglo = []
-    console.log(index);
-    arregloNotas.forEach((nota, i) => {
+
+    
+    notas.forEach((nota, i) => {
       if(index !== i){
         nuevoArreglo.push(nota);
       }
     });
 
     localStorage.setItem("notas", JSON.stringify(nuevoArreglo));
-    arregloNotas = [...nuevoArreglo]
+    setNotas = [...nuevoArreglo]
   };
 
   const handleInputClean = () => { 
@@ -61,13 +65,14 @@ function App() {
         <div className="col"> 
             <h3>Lista</h3>
             {
-              arregloNotas.length === 0 ?
+              notas.length === 0 ?
               "al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo." :
               (
                 <ol>
-                  {arregloNotas.map((item, index) => {
+                  {notas.map((item, index) => {
                     return(
-                      <li>{item.titulo}({item.fecha} )&nbsp;
+                      <li key={index}>
+                        {item.titulo}({item.fecha} )&nbsp;
                       <i class="bi bi-x-circle-fill"
                       onClick={() => handleBorrarNota(index)}
                       style={{color: "red", fontSize:"0.75rem",

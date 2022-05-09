@@ -48,8 +48,13 @@ function App() {
     });
 
     localStorage.setItem("notas", JSON.stringify(nuevoArreglo));
-    setNotas = [...nuevoArreglo]
+    setNotas ([...nuevoArreglo])
   };
+
+  const handleClickLimpiarLista =() => {
+    setNotas([])
+    localStorage.setItem("notas", JSON.stringify([]));
+  }
 
   const handleInputClean = () => { 
     setInputState({
@@ -83,6 +88,16 @@ function App() {
                   })}
                   </ol>
                 )}  
+          <span className="row me-1">
+          <button 
+            type="button"
+            className="btn btn-primary" 
+            onClick={handleClickLimpiarLista}
+            disabled={notas.length===0}
+          >
+            Limpiar Lista
+        </button> 
+      </span>
            
             
         </div>
@@ -131,6 +146,7 @@ function App() {
             type="button"
             className="btn btn-primary" 
             onClick={handleInputClean}
+            disabled={inputState.titulo==="" || inputState.fecha==="" || inputState.notas===""}
         >
             Limpiar
         </button> 
@@ -142,6 +158,7 @@ function App() {
             type="button" 
             className="btn btn-primary" 
             onClick={handleClickGuardar}
+            disabled={inputState.titulo==="" || inputState.fecha==="" || inputState.notas===""}
         >
         Guardar
       </button>

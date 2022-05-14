@@ -25,6 +25,10 @@ function App() {
 
   };
 
+  const handleClickNota = (index) => {
+    setInputState ({...notas [index]});
+  };
+
   const handleClickLimpiar = ( ) => {
     setInputState ({titulo: " ", fecha: " ", nota: " "});
   };
@@ -74,19 +78,23 @@ function App() {
               "al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo." :
               (
                 <ol>
-                  {notas.map((item, index) => {
-                    return(
-                      <li key={index}>
-                        {item.titulo}({item.fecha} )&nbsp;
-                      <i class="bi bi-x-circle-fill"
-                      onClick={() => handleBorrarNota(index)}
-                      style={{color: "red", fontSize:"0.75rem",
-                      cursor:"pointer"}}></i>
-                      </li>
-                    );
-    
-                  })}
-                  </ol>
+              {notas.map((item, index) => {
+                return (
+                  <li key = {index} onClick = {() => handleClickNota (index)}>
+                    {item.titulo}({item.fecha}) &nbsp;
+                    <i 
+                      className = "bi bi-x-circle-fill"
+                      onClick = {() => handleBorrarNota (index)}
+                      style = {{
+                        color: "red",
+                        fontSize: "0.75rem",
+                        cursor: "pointer",
+                      }} 
+                      ></i>
+                  </li>
+                );
+              })}
+            </ol>
                 )}  
           <span className="row me-1">
           <button 
@@ -120,7 +128,7 @@ function App() {
           <input 
             id="fecha" 
             name="fecha" 
-            type="text" 
+            type="date" 
             onChange={handleInputChange}
             value={inputState.fecha} 
             style={{ width:"100%" }}
@@ -129,7 +137,7 @@ function App() {
       <br />
       <label className="mb-2" style={{ width:"100%" }}>
         Nota
-          <input 
+          <textarea 
             id="nota" 
             name="nota" 
             type="text" 
